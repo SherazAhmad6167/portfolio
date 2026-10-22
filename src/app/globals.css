@@ -1,0 +1,406 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Tokens ---------- */
+:root,
+[data-theme="light"] {
+  --bg: #f4f4f1;
+  --bg-2: #ebebe6;
+  --surface: #ffffff;
+  --surface-2: #f8f8f6;
+  --line: rgb(10 10 10 / 0.08);
+  --line-strong: rgb(10 10 10 / 0.16);
+  --fg: #0a0a0a;
+  --muted: #6b6b66;
+  --faint: #a3a39c;
+  --invert: #ffffff;
+  --accent: #6d5dfc;
+  --shadow: 0 40px 80px -40px rgb(20 20 40 / 0.25), 0 2px 6px rgb(20 20 40 / 0.04);
+  --iris: linear-gradient(100deg, #7dd3fc 0%, #c4b5fd 30%, #f9a8d4 60%, #fde68a 100%);
+  --iris-conic: conic-gradient(from 210deg, #a5f3fc, #c4b5fd, #fbcfe8, #fde68a, #a5f3fc);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #0b0b0c;
+  --bg-2: #111113;
+  --surface: #151517;
+  --surface-2: #1c1c1f;
+  --line: rgb(244 244 241 / 0.08);
+  --line-strong: rgb(244 244 241 / 0.18);
+  --fg: #f4f4f1;
+  --muted: #9a9a93;
+  --faint: #5c5c57;
+  --invert: #0b0b0c;
+  --accent: #a99bff;
+  --shadow: 0 40px 80px -40px rgb(0 0 0 / 0.8), 0 2px 6px rgb(0 0 0 / 0.3);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-invert: var(--invert);
+  --color-accent: var(--accent);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: #c4b5fd;
+  color: #0a0a0a;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+/* ---------- Utilities ---------- */
+@utility container-page {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 640px) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 1024px) {
+    padding-inline: 3rem;
+  }
+}
+
+/* Small mono label, e.g. "(01) Work" */
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+@utility iris-text {
+  background: var(--iris);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Kept in the components layer so Tailwind utilities (absolute, inset-*, sizes) can override them */
+@layer components {
+  /* Small static orb used as a bullet, logo dot and 3D fallback */
+  .orb-dot {
+    position: relative;
+    border-radius: 9999px;
+    background: var(--iris-conic);
+    animation: orb-spin 8s linear infinite;
+  }
+  .orb-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 34% 28%, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.2) 42%, rgb(15 15 30 / 0.22) 100%);
+  }
+  @keyframes orb-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Card with an iridescent edge that lights up where the cursor is */
+  .spot {
+    position: relative;
+    isolation: isolate;
+  }
+  .spot::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), #a78bfa, #7dd3fc 25%, #f9a8d4 40%, transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .spot:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Film grain, very light */
+.grain-wrap {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+}
+.grain {
+  position: absolute;
+  inset: -50%;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+}
+[data-theme="dark"] .grain {
+  opacity: 0.05;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -2%); }
+  60% { transform: translate(-2%, -4%); }
+  80% { transform: translate(4%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Infinite marquee */
+.marquee-track {
+  animation: marquee var(--marquee-speed, 40s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Typing caret for the AI answers */
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 0.45em;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.14em;
+  border-radius: 2px;
+  background: var(--iris);
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret {
+  50% { opacity: 0; }
+}
+
+/* Text that animates in is hidden until its script runs (with a failsafe) */
+html.js [data-reveal] {
+  visibility: hidden;
+  animation: reveal-failsafe 0s 4s forwards;
+}
+@keyframes reveal-failsafe {
+  to { visibility: visible; }
+}
+
+/* Split-text line masks */
+.split-line {
+  overflow: clip;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* Turning iridescent edge for highlighted cards and buttons */
+@property --iris-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.iris-border {
+  background: conic-gradient(from var(--iris-angle), #7dd3fc, #c4b5fd, #f9a8d4, #fde68a, #7dd3fc);
+  animation: iris-turn 6s linear infinite;
+}
+@keyframes iris-turn {
+  to { --iris-angle: 360deg; }
+}
+
+/* Liquid-glass monogram (the avatar): frosted disc over the turning orb */
+.glass-mono {
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 9999px;
+  background: conic-gradient(from var(--iris-angle), #7dd3fc, #c4b5fd, #f9a8d4, #fde68a, #7dd3fc);
+  animation: iris-turn 6s linear infinite;
+  color: #1a1a2e;
+}
+.glass-mono::before {
+  content: "";
+  position: absolute;
+  inset: 13%;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(circle at 32% 24%, rgb(255 255 255 / 0.6), transparent 55%), rgb(255 255 255 / 0.42);
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.9), inset 0 -2px 6px rgb(0 0 0 / 0.08);
+}
+:where([data-theme="dark"]) .glass-mono {
+  color: #fff;
+}
+:where([data-theme="dark"]) .glass-mono::before {
+  background: radial-gradient(circle at 32% 24%, rgb(255 255 255 / 0.22), transparent 55%), rgb(12 12 18 / 0.45);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.35), inset 0 -2px 6px rgb(0 0 0 / 0.3);
+}
+
+/* Turning iridescent hairline drawn on a child layer, so the parent's fill stays see-through */
+.iris-ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(from var(--iris-angle), #7dd3fc, #c4b5fd, #f9a8d4, #fde68a, #7dd3fc);
+  animation: iris-turn 4s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Ring that spreads out from the cursor on click */
+.cursor-ripple {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 9999px;
+  border: 1.5px solid #a78bfa;
+  animation: cursor-ripple 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes cursor-ripple {
+  to { transform: scale(9); opacity: 0; border-width: 0.5px; }
+}
+
+/* Progress bar under the screenshot carousel */
+@keyframes showcase-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Data pulse running along the case-study flow line */
+/* Stats: routers "coming online" in the subscriber grid, and sparks flying along the map arcs */
+@keyframes dot-pulse {
+  50% { transform: scale(1.7); opacity: 0.55; }
+}
+@keyframes arc-run {
+  from { stroke-dashoffset: 5; }
+  to { stroke-dashoffset: -100; }
+}
+
+@keyframes flow-run {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: calc(100% - 2.5rem); opacity: 0; }
+}
+
+/* Gentle up-and-down for floating badges */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+
+/* Slow drift for background glows */
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -40px) scale(1.08); }
+}
+
+/* ---------- View transitions ---------- */
+::view-transition-group(*) {
+  animation-duration: 0.6s;
+  animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@keyframes vt-fade {
+  from { opacity: 0; }
+}
+@keyframes vt-slide {
+  from { transform: translateY(var(--slide-offset)); }
+}
+
+::view-transition-old(.nav-forward) {
+  --slide-offset: -40px;
+  animation: 180ms ease-in both vt-fade reverse, 450ms var(--ease-in-out-quart) both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --slide-offset: 60px;
+  animation: 300ms ease-out 150ms both vt-fade, 600ms var(--ease-out-expo) both vt-slide;
+}
+::view-transition-old(.nav-back) {
+  --slide-offset: 40px;
+  animation: 180ms ease-in both vt-fade reverse, 450ms var(--ease-in-out-quart) both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --slide-offset: -60px;
+  animation: 300ms ease-out 150ms both vt-fade, 600ms var(--ease-out-expo) both vt-slide;
+}
+
+/* Theme switch: circle reveal from the toggle */
+html.theme-switch::view-transition-old(root) {
+  animation: none;
+}
+html.theme-switch::view-transition-new(root) {
+  animation: theme-reveal 0.7s var(--ease-in-out-quart);
+}
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--tx, 50%) var(--ty, 0%)); }
+  to { clip-path: circle(var(--tr, 150vmax) at var(--tx, 50%) var(--ty, 0%)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .grain {
+    animation: none;
+  }
+}

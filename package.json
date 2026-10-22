@@ -1,0 +1,48 @@
+{
+  "name": "sheraz-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "node scripts/fix-export-segments.mjs",
+    "media": "node scripts/optimize-media.mjs",
+    "typecheck": "tsc --noEmit",
+    "globe": "node scripts/build-globe.mjs",
+    "portrait": "node scripts/portrait.mjs",
+    "video": "node scripts/build-video.mjs",
+    "avatar": "node scripts/avatar.mjs"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "firebase": "^13.1.0",
+    "geist": "^1.8.1",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.27",
+    "lucide-react": "^1.61.0",
+    "motion": "^14.5.0",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "simple-icons": "^16.35.0",
+    "tailwind-merge": "^3.7.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "d3-geo": "^3.1.1",
+    "ffmpeg-static": "^5.2.0",
+    "postcss": "^8.5.31",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.3",
+    "topojson-client": "^3.1.0",
+    "typescript": "^7.0.2",
+    "world-atlas": "^2.0.2"
+  }
+}
