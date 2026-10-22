@@ -83,11 +83,14 @@ export function CoverZoom({ children, className }: { children: React.ReactNode; 
           scrollTrigger: { trigger: ref.current, start: "top 95%", end: "top 25%", scrub: true },
         },
       );
-      gsap.to(".cover-float", {
-        yPercent: -18,
-        ease: "none",
-        scrollTrigger: { trigger: ref.current, start: "top bottom", end: "bottom top", scrub: true },
-      });
+      // Only covers with a phone beside them have something to float
+      if (ref.current?.querySelector(".cover-float")) {
+        gsap.to(".cover-float", {
+          yPercent: -18,
+          ease: "none",
+          scrollTrigger: { trigger: ref.current, start: "top bottom", end: "bottom top", scrub: true },
+        });
+      }
     },
     { scope: ref },
   );
