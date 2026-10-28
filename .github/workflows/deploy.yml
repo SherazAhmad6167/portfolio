@@ -1,9 +1,11 @@
-# Optional: builds the static site and publishes it to GitHub Pages when run by hand
-# (Actions tab → Deploy to GitHub Pages → Run workflow). The live site is on Firebase Hosting.
+# Builds the static site and publishes it to GitHub Pages on every push to main
+# (https://sherazahmad6167.github.io/portfolio/). The main site is on Firebase Hosting.
 # One-time setup: repo Settings → Pages → Source: "GitHub Actions".
 name: Deploy to GitHub Pages
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

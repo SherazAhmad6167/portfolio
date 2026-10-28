@@ -52,6 +52,6 @@ firebase deploy --only hosting
 
 Pages and their data are sent with `Cache-Control: no-cache`, so a new deploy shows up on the next visit; images and code are cached (see `firebase.json`).
 
-### Optional: GitHub Pages
+### Copy on GitHub Pages
 
-`.github/workflows/deploy.yml` can publish the same build to GitHub Pages. It only runs when started by hand from the Actions tab (repo Settings → Pages → Source: **GitHub Actions** first). Name the repository `SherazAhmad6167.github.io` for the root URL; any other name is served from `/<repo-name>/` and the workflow sets the base path automatically.
+Every push to `main` also publishes the site to https://sherazahmad6167.github.io/portfolio/ through `.github/workflows/deploy.yml` (repo Settings → Pages → Source must be **GitHub Actions**). That copy is built under the `/portfolio` base path and tells search engines the Firebase address is the original.

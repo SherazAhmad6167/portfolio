@@ -22,8 +22,8 @@ const person = {
   alumniOf: { "@type": "CollegeOrUniversity", name: "University of Gujrat" },
   address: { "@type": "PostalAddress", addressCountry: "PK" },
   email: `mailto:${site.email}`,
-  url: site.url,
-  image: `${site.url}/og.png`,
+  url: site.primaryUrl,
+  image: `${site.primaryUrl}/og.png`,
   sameAs: [site.github, site.linkedin].filter(Boolean),
   knowsAbout: ["Angular", "React", "Next.js", "React Native", "Kotlin", "Node.js", "Firebase", "Azure Functions", "FastAPI", "Stripe"],
 };

@@ -6,6 +6,7 @@ import LocalTime from "./LocalTime";
 import Avatar from "./Avatar";
 import { sections } from "./Nav";
 import { site } from "@/content/site";
+import { asset } from "@/lib/media";
 
 export default function Footer() {
   const scrollTo = useScrollTo();
@@ -34,7 +35,7 @@ export default function Footer() {
               {sections.map((s) => (
                 <li key={s.id}>
                   <a
-                    href={`/#${s.id}`}
+                    href={asset(`/#${s.id}`)}
                     onClick={(e) => {
                       e.preventDefault();
                       scrollTo(s.id);

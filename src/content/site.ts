@@ -6,8 +6,10 @@ export const site = {
   company: "Technoverse",
   location: "Pakistan",
   timezone: "Asia/Karachi",
-  // Set NEXT_PUBLIC_SITE_URL when deploying somewhere else, e.g. a custom domain
+  // Where this build is served from (the GitHub Pages copy sets NEXT_PUBLIC_SITE_URL to its own origin)
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://muhammadsherazahmad.web.app",
+  // The main address; every copy of the site tells search engines this is the original
+  primaryUrl: "https://muhammadsherazahmad.web.app",
   email: "chaudhrysheraz10@gmail.com",
   github: "https://github.com/SherazAhmad6167",
   linkedin: "",

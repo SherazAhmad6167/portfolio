@@ -14,6 +14,7 @@ import RollText from "./ui/roll-text";
 import { openPalette } from "@/lib/theme";
 import { useScrollTo } from "@/lib/useScrollTo";
 import { site } from "@/content/site";
+import { asset } from "@/lib/media";
 import { cn } from "@/lib/utils";
 
 export const sections = [
@@ -154,7 +155,7 @@ export default function Nav() {
               {sections.map((s) => (
                 <li key={s.id}>
                   <a
-                    href={`/#${s.id}`}
+                    href={asset(`/#${s.id}`)}
                     onClick={(e) => {
                       e.preventDefault();
                       go(s.id);
@@ -208,7 +209,7 @@ export default function Nav() {
             <ThemeToggle />
             <Magnetic className="hidden lg:block" strength={0.25}>
               <a
-                href="/#contact"
+                href={asset("/#contact")}
                 onClick={(e) => {
                   e.preventDefault();
                   go("contact");
@@ -258,7 +259,7 @@ export default function Nav() {
               {sections.map((s, i) => (
                 <li key={s.id} className="overflow-hidden border-b border-line">
                   <motion.a
-                    href={`/#${s.id}`}
+                    href={asset(`/#${s.id}`)}
                     onClick={(e) => {
                       e.preventDefault();
                       go(s.id);

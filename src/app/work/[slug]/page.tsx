@@ -36,6 +36,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { getProject, projects } from "@/content/projects";
+import { site } from "@/content/site";
 import { tint } from "@/lib/tints";
 import { Framed, PhoneFrame, Shot } from "@/components/Frames";
 import Reveal from "@/components/Reveal";
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: p.name,
     description: p.summary,
-    alternates: { canonical: `/work/${p.slug}/` },
+    alternates: { canonical: `${site.primaryUrl}/work/${p.slug}/` },
     openGraph: { type: "article", title: `${p.name} · Case study`, description: p.summary },
     twitter: { card: "summary_large_image", title: `${p.name} · Case study`, description: p.summary },
   };
